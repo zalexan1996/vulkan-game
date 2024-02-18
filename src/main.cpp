@@ -1,7 +1,9 @@
 #include <iostream>
 #include "../include/zEngine/application.h"
 
+using namespace zEngine;
+
 int main() {
-    auto app = zEngine::Application::GetSingleton();
+    Application *app = Application::GetSingleton();
     return app->Run();
 }

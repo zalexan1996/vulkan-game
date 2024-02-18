@@ -11,6 +11,7 @@ using namespace zEngine::devices;
 
 namespace zEngine
 {
+    Application *Application::instance;
     Application::Application()
     {
         auto settings = configuration::AppSettings();
@@ -32,9 +33,6 @@ namespace zEngine
         info.ppEnabledLayerNames = settings.ValidationLayers.data();
 
         Assert::VulkanSuccess(vkCreateInstance(&info, nullptr, &vkInstance), "Failed to create Vulkan Instance.");
-
-        DeviceBrowser browser;
-        browser.FindFirst();
     }
 
     Application::~Application()
@@ -49,11 +47,22 @@ namespace zEngine
         }
     }
 
+    Application *Application::GetSingleton()
+    {
+        if (instance == nullptr)
+        {
+            instance = new Application();
+        }
+        
+        return instance;
+    }
+
     int Application::Run()
     {
         try
-        
         {
+            DeviceBrowser browser;
+            browser.FindFirst();
             while (!window->shouldClose())
             {
                 window->Poll();

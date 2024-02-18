@@ -7,7 +7,7 @@ namespace zEngine::devices
 {
     void DeviceBrowser::FindFirst()
     {
-        auto instance = Application::GetSingleton()->GetVkInstance();
+        auto instance = Application::GetVkInstance();
 
         uint32_t count;
         vkEnumeratePhysicalDevices(instance, &count, nullptr);

@@ -9,25 +9,17 @@ namespace zEngine
         private:
             class Window* window;
             VkInstance vkInstance;
+            static Application *instance;
             
             Application();
 
         public:  
-            VkInstance GetVkInstance()
+            static Application *GetSingleton();
+            static VkInstance GetVkInstance()
             {
                 return GetSingleton()->vkInstance;
             }
 
-            static Application *GetSingleton()
-            {
-                static Application *instance;
-                if (instance == nullptr)
-                {
-                    instance = new Application();
-                }
-                
-                return instance;
-            }
 
             ~Application();
             Application(const Application&) = delete;
