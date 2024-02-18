@@ -11,13 +11,14 @@ using namespace zEngine::devices;
 
 namespace zEngine
 {
-    Application *Application::instance;
+    Application* Application::instance;
+
     Application::Application()
     {
         auto settings = configuration::AppSettings();
         auto appInfo = GetApplicationInfo();
 
-        window = new Window(settings.WindowWidth, settings.WindowHeight, settings.WindowTitle);
+        window = std::make_unique<Window>(settings.WindowWidth, settings.WindowHeight, settings.WindowTitle);
 
 
         uint32_t glfwExtensionCount = 0;
@@ -37,8 +38,7 @@ namespace zEngine
 
     Application::~Application()
     {
-        delete window;
-        window = nullptr;
+        window.reset();
 
         if (vkInstance != nullptr)
         {
@@ -47,7 +47,7 @@ namespace zEngine
         }
     }
 
-    Application *Application::GetSingleton()
+    Application* Application::GetSingleton()
     {
         if (instance == nullptr)
         {
@@ -59,21 +59,14 @@ namespace zEngine
 
     int Application::Run()
     {
-        try
+        Init();
+        
+        while (!window->shouldClose())
         {
-            DeviceBrowser browser;
-            browser.FindFirst();
-            while (!window->shouldClose())
-            {
-                window->Poll();
-            }
+            window->Poll();
+            Step();
         }
-        catch (std::exception e)
-        {
-            std::cerr << "Vulkan-Game terminated abruptly with error:" << std::endl
-                << e.what() << std::endl;
-                return 1;
-        }
+
         return 0;
     }
 
@@ -88,6 +81,18 @@ namespace zEngine
         appInfo.engineVersion = VK_MAKE_VERSION(0, 1, 0);
 
         return appInfo;
+    }
+
+    void Application::Init()
+    {
+
+        DeviceBrowser browser;
+        browser.FindBest();
+    }
+
+    void Application::Step()
+    {
+
     }
 }
 

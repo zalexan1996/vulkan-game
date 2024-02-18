@@ -1,20 +1,21 @@
 #pragma once
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+#include <memory>
 
 namespace zEngine
 {
     class Application
     {
         private:
-            class Window* window;
+            std::unique_ptr<class Window> window;
             VkInstance vkInstance;
-            static Application *instance;
+            static Application* instance;
             
             Application();
 
         public:  
-            static Application *GetSingleton();
+            static Application* GetSingleton();
             static VkInstance GetVkInstance()
             {
                 return GetSingleton()->vkInstance;
@@ -29,5 +30,9 @@ namespace zEngine
 
 
             VkApplicationInfo GetApplicationInfo();
+
+        protected:
+            virtual void Init();
+            virtual void Step();
     };
 }

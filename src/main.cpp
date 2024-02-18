@@ -4,6 +4,23 @@
 using namespace zEngine;
 
 int main() {
-    Application *app = Application::GetSingleton();
-    return app->Run();
+    int code = 0;
+    Application* app;
+    try
+    {
+        app = Application::GetSingleton();
+        code = app->Run();
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Application terminated with error: " << std::endl
+            << e.what() << std::endl;
+    }
+
+    if (app != nullptr)
+    {
+        delete app;
+    }
+
+    return code;
 }

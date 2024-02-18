@@ -5,6 +5,6 @@ namespace zEngine::devices
     class DeviceBrowser
     {
         public:
-            void FindFirst();
+            void FindBest();
     };
 }
