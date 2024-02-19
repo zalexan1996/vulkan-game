@@ -7,5 +7,6 @@ namespace zEngine::devices
     {
         public:
             VkPhysicalDevice FindBest();
+            bool isSupported(VkPhysicalDevice d);
     };
 }
