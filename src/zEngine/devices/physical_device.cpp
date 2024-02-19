@@ -16,7 +16,7 @@ namespace zEngine::devices
         props.resize(count);
         vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &count, props.data());
         
-        queueFamilyInfos = QueueFamilyInfos(props);   
+        queueFamilyInfos = QueueFamilyInfos(props, device);   
     }
 
     PhysicalDevice::PhysicalDevice(const PhysicalDevice &other)

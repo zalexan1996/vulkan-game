@@ -37,7 +37,7 @@ namespace zEngine::devices
         public:
             QueueFamilyInfos() {}
             QueueFamilyInfos(const std::vector<QueueFamilyInfo> &queueInfos);
-            QueueFamilyInfos(const std::vector<VkQueueFamilyProperties> &properties);
+            QueueFamilyInfos(const std::vector<VkQueueFamilyProperties> &properties, VkPhysicalDevice device);
             uint32_t IndexOf(VkQueueFlagBits flagValue);
     };
 }

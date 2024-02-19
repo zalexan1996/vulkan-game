@@ -18,6 +18,7 @@ namespace zEngine
 
             void Poll();
             void CreateSurface(VkInstance instance);
+            VkSurfaceKHR GetSurface() const { return vkSurface; }
         private:
             GLFWwindow *window;
             VkSurfaceKHR vkSurface;

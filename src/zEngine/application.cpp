@@ -62,6 +62,11 @@ namespace zEngine
         return instance;
     }
 
+    VkSurfaceKHR Application::GetSurface()
+    {
+        return GetSingleton()->window->GetSurface();
+    }
+
     int Application::Run()
     {
         Init();

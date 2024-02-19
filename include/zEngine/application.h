@@ -27,6 +27,7 @@ namespace zEngine
             {
                 return GetSingleton()->vkInstance;
             }
+            static VkSurfaceKHR GetSurface();
 
 
             ~Application();
