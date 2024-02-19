@@ -1,24 +1,20 @@
 #pragma once
-#include <vulkan/vulkan.h>
+#include "queue_infos.h"
 
 namespace zEngine::devices
 {
-    struct QueueFamilyCounts
-    {
-        unsigned short graphics = 0;
-        unsigned short compute = 0;
-        unsigned short transfer = 0;
-    };
-
     class PhysicalDevice
     {
         private:
             VkPhysicalDevice vkPhysicalDevice;
-            QueueFamilyCounts queueFamilyCounts;
 
         public:
             PhysicalDevice(VkPhysicalDevice vkDevice);
-            VkPhysicalDeviceProperties GetProperties();
-            const QueueFamilyCounts& GetQueueFamilyCounts();
+            VkPhysicalDeviceProperties GetProperties() const;
+            const QueueFamilyInfos GetQueueFamilyInfos() const;
+            const VkPhysicalDeviceFeatures GetFeatures() const;
+            constexpr VkPhysicalDevice GetVkPhysicalDevice() const { return vkPhysicalDevice; }
+
+            void Print() const;
     };
 }

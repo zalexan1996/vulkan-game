@@ -5,6 +5,8 @@
 #include "asserts.h"
 #include <stdexcept>
 #include <iostream>
+#include "physical_device.h"
+#include "logical_device.h"
 
 using namespace zEngine::common;
 using namespace zEngine::devices;
@@ -38,6 +40,8 @@ namespace zEngine
 
     Application::~Application()
     {
+        logicalDevice.reset();
+        physicalDevice.reset();
         window.reset();
 
         if (vkInstance != nullptr)
@@ -85,9 +89,9 @@ namespace zEngine
 
     void Application::Init()
     {
-
-        DeviceBrowser browser;
-        browser.FindBest();
+        auto browser = DeviceBrowser();
+        physicalDevice = std::make_unique<PhysicalDevice>(browser.FindBest());
+        logicalDevice = std::make_unique<LogicalDevice>(*physicalDevice);
     }
 
     void Application::Step()

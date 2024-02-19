@@ -5,10 +5,16 @@
 
 namespace zEngine
 {
+    namespace devices{
+        class LogicalDevice;
+        class PhysicalDevice;
+    }
     class Application
     {
         private:
             std::unique_ptr<class Window> window;
+            std::unique_ptr<devices::LogicalDevice> logicalDevice;
+            std::unique_ptr<devices::PhysicalDevice> physicalDevice;
             VkInstance vkInstance;
             static Application* instance;
             

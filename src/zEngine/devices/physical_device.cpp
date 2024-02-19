@@ -1,5 +1,8 @@
 #include "physical_device.h"
 #include <vector>
+#include <iostream>
+#include <iomanip>
+#include <algorithm>
 
 namespace zEngine::devices
 {
@@ -10,27 +13,9 @@ namespace zEngine::devices
         vkGetPhysicalDeviceQueueFamilyProperties(device, &count, nullptr);
         std::vector<VkQueueFamilyProperties> queueFamilyProperties(count);
         vkGetPhysicalDeviceQueueFamilyProperties(device, &count, queueFamilyProperties.data());
-
-        for (uint32_t i = 0; i < count; i++)
-        {
-            const VkQueueFamilyProperties &p = queueFamilyProperties.at(i);
-
-            if (p.queueFlags & VkQueueFlagBits::VK_QUEUE_GRAPHICS_BIT)
-            {
-                queueFamilyCounts.graphics += p.queueCount;
-            }
-            if (p.queueFlags & VkQueueFlagBits::VK_QUEUE_COMPUTE_BIT)
-            {
-                queueFamilyCounts.compute += p.queueCount;
-            }
-            if (p.queueFlags & VkQueueFlagBits::VK_QUEUE_TRANSFER_BIT)
-            {
-                queueFamilyCounts.transfer += p.queueCount;
-            }
-        }
     }
 
-    VkPhysicalDeviceProperties PhysicalDevice::GetProperties()
+    VkPhysicalDeviceProperties PhysicalDevice::GetProperties() const
     {
         VkPhysicalDeviceProperties p;
         vkGetPhysicalDeviceProperties(vkPhysicalDevice, &p);
@@ -38,8 +23,27 @@ namespace zEngine::devices
         return p;
     }
     
-    const QueueFamilyCounts& PhysicalDevice::GetQueueFamilyCounts()
+    const QueueFamilyInfos PhysicalDevice::GetQueueFamilyInfos() const
     {
-        return queueFamilyCounts;
+        uint32_t count;
+        std::vector<VkQueueFamilyProperties> props;
+
+        vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &count, nullptr);
+        props.resize(count);
+        vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &count, props.data());
+        
+        return QueueFamilyInfos(props);
+    }
+
+    const VkPhysicalDeviceFeatures PhysicalDevice::GetFeatures() const
+    {
+        VkPhysicalDeviceFeatures deviceFeatures{};
+        vkGetPhysicalDeviceFeatures(vkPhysicalDevice, &deviceFeatures);
+
+        return deviceFeatures;
+    }
+
+    void PhysicalDevice::Print() const
+    {
     }
 }
