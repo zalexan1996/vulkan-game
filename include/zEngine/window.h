@@ -1,4 +1,6 @@
 #pragma once
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
 #include <string>
 
 class GLFWwindow;
@@ -15,7 +17,9 @@ namespace zEngine
             bool shouldClose();
 
             void Poll();
+            void CreateSurface(VkInstance instance);
         private:
             GLFWwindow *window;
+            VkSurfaceKHR vkSurface;
     };
-} // namespace zEngine
+}

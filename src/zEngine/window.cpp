@@ -1,6 +1,6 @@
 #include "window.h"
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
+#include "application.h"
+#include "asserts.h"
 
 namespace zEngine
 {
@@ -17,8 +17,16 @@ namespace zEngine
 
     Window::~Window()
     {
-        glfwDestroyWindow(window);
-        window = nullptr;
+        if (vkSurface != nullptr)
+        {
+            vkDestroySurfaceKHR(Application::GetVkInstance(), vkSurface, nullptr);
+        }
+        
+        if (window != nullptr)
+        {
+            glfwDestroyWindow(window);
+            window = nullptr;
+        }
         glfwTerminate();
     }
 
@@ -30,6 +38,13 @@ namespace zEngine
     void Window::Poll()
     {
         glfwPollEvents();
+    }
+
+    void Window::CreateSurface(VkInstance instance)
+    {
+        auto result = glfwCreateWindowSurface(instance, window, nullptr, &vkSurface);
+
+        common::Assert::VulkanSuccess(result, "Failed to create window surface.");
     }
 
 } // namespace zEngine

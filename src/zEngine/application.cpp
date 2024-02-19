@@ -36,6 +36,7 @@ namespace zEngine
         info.ppEnabledLayerNames = settings.ValidationLayers.data();
 
         Assert::VulkanSuccess(vkCreateInstance(&info, nullptr, &vkInstance), "Failed to create Vulkan Instance.");
+        window->CreateSurface(vkInstance);
     }
 
     Application::~Application()
