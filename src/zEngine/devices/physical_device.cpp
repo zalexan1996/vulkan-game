@@ -10,10 +10,18 @@ namespace zEngine::devices
         : vkPhysicalDevice(device)
     {
         uint32_t count;
-        vkGetPhysicalDeviceQueueFamilyProperties(device, &count, nullptr);
-        std::vector<VkQueueFamilyProperties> queueFamilyProperties(count);
-        vkGetPhysicalDeviceQueueFamilyProperties(device, &count, queueFamilyProperties.data());
+        std::vector<VkQueueFamilyProperties> props;
+
+        vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &count, nullptr);
+        props.resize(count);
+        vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &count, props.data());
+        
+        queueFamilyInfos = QueueFamilyInfos(props);   
     }
+
+    PhysicalDevice::PhysicalDevice(const PhysicalDevice &other)
+        : vkPhysicalDevice(other.GetVkPhysicalDevice()), queueFamilyInfos(other.GetQueueFamilyInfos())
+    { }
 
     VkPhysicalDeviceProperties PhysicalDevice::GetProperties() const
     {
@@ -21,18 +29,6 @@ namespace zEngine::devices
         vkGetPhysicalDeviceProperties(vkPhysicalDevice, &p);
 
         return p;
-    }
-    
-    const QueueFamilyInfos PhysicalDevice::GetQueueFamilyInfos() const
-    {
-        uint32_t count;
-        std::vector<VkQueueFamilyProperties> props;
-
-        vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &count, nullptr);
-        props.resize(count);
-        vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &count, props.data());
-        
-        return QueueFamilyInfos(props);
     }
 
     const VkPhysicalDeviceFeatures PhysicalDevice::GetFeatures() const

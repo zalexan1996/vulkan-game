@@ -92,6 +92,11 @@ namespace zEngine
         auto browser = DeviceBrowser();
         physicalDevice = std::make_unique<PhysicalDevice>(browser.FindBest());
         logicalDevice = std::make_unique<LogicalDevice>(*physicalDevice);
+        auto gfx = logicalDevice->GetQueue(VkQueueFlagBits::VK_QUEUE_GRAPHICS_BIT);
+        auto tfr = logicalDevice->GetQueue(VkQueueFlagBits::VK_QUEUE_TRANSFER_BIT);
+        auto cmp = logicalDevice->GetQueue(VkQueueFlagBits::VK_QUEUE_COMPUTE_BIT);
+
+        std::cout << gfx << " : " << tfr << " : " << cmp << std::endl;
     }
 
     void Application::Step()

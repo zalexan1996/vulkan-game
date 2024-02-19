@@ -1,10 +1,12 @@
 #include "logical_device.h"
 #include <vector>
 #include "asserts.h"
+#include "queue_infos.h"
 
 namespace zEngine::devices
 {
     LogicalDevice::LogicalDevice(const PhysicalDevice &d)
+        : physicalDevice(d)
     {
         auto infos = d.GetQueueFamilyInfos();
         float priority = 1.0f;
@@ -33,5 +35,16 @@ namespace zEngine::devices
             vkDestroyDevice(vkDevice, nullptr);
             vkDevice = nullptr;
         }
+    }
+
+
+    VkQueue LogicalDevice::GetQueue(VkQueueFlagBits queueType)
+    {
+        VkQueue queue;
+        auto infos = physicalDevice.GetQueueFamilyInfos();
+        
+        vkGetDeviceQueue(vkDevice, infos.IndexOf(queueType), 0, &queue);
+
+        return queue;
     }
 }

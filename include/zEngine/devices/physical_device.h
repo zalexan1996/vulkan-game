@@ -7,11 +7,14 @@ namespace zEngine::devices
     {
         private:
             VkPhysicalDevice vkPhysicalDevice;
+            QueueFamilyInfos queueFamilyInfos;
 
         public:
             PhysicalDevice(VkPhysicalDevice vkDevice);
+            PhysicalDevice(const PhysicalDevice &physicalDevice);
+            
             VkPhysicalDeviceProperties GetProperties() const;
-            const QueueFamilyInfos GetQueueFamilyInfos() const;
+            const QueueFamilyInfos &GetQueueFamilyInfos() const { return queueFamilyInfos; }
             const VkPhysicalDeviceFeatures GetFeatures() const;
             constexpr VkPhysicalDevice GetVkPhysicalDevice() const { return vkPhysicalDevice; }
 

@@ -7,9 +7,12 @@ namespace zEngine::devices
     {
         private:
             VkDevice vkDevice;
-            
+            PhysicalDevice physicalDevice;
+            VkQueue queue;
+
         public:
             LogicalDevice(const PhysicalDevice &d);
             ~LogicalDevice();
+            VkQueue GetQueue(VkQueueFlagBits queueType);
     };
 }

@@ -6,6 +6,9 @@ namespace zEngine::devices
 {
     struct QueueFamilyInfo
     {
+        QueueFamilyInfo() 
+            : Index(0), Count(0), Flags(0) { }
+
         QueueFamilyInfo(uint32_t index, uint32_t count, uint32_t flags)
             : Index(index), Count(count), Flags(flags) { }
             
@@ -32,6 +35,7 @@ namespace zEngine::devices
             std::vector<QueueFamilyInfo> queueInfos;
 
         public:
+            QueueFamilyInfos() {}
             QueueFamilyInfos(const std::vector<QueueFamilyInfo> &queueInfos);
             QueueFamilyInfos(const std::vector<VkQueueFamilyProperties> &properties);
             uint32_t IndexOf(VkQueueFlagBits flagValue);
