@@ -2,6 +2,7 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 #include <string>
+#include "surface_properties.h"
 
 class GLFWwindow;
 
@@ -19,6 +20,9 @@ namespace zEngine
             void Poll();
             void CreateSurface(VkInstance instance);
             VkSurfaceKHR GetSurface() const { return vkSurface; }
+
+            common::SurfaceProperties GetSurfaceCapabilities(VkPhysicalDevice d);
+            VkExtent2D GetFramebufferSize(const VkSurfaceCapabilitiesKHR& capabilities) const;
         private:
             GLFWwindow *window;
             VkSurfaceKHR vkSurface;

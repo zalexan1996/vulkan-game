@@ -8,6 +8,7 @@
 #include "physical_device.h"
 #include "app_settings.h"
 #include "string.h"
+#include "window.h"
 namespace zEngine::devices
 {
 
@@ -39,23 +40,32 @@ namespace zEngine::devices
         return devices.at(0);
     }
 
-    bool DeviceBrowser::isSupported(VkPhysicalDevice device)
+    bool areExtensionsSupported(VkPhysicalDevice d)
     {
         uint32_t count;
         std::vector<VkExtensionProperties> extensions;
         auto appSettings = zEngine::configuration::AppSettings();
-
-        vkEnumerateDeviceExtensionProperties(device, nullptr, &count, nullptr);
+        vkEnumerateDeviceExtensionProperties(d, nullptr, &count, nullptr);
         extensions.resize(count);
 
-        vkEnumerateDeviceExtensionProperties(device, nullptr, &count, extensions.data());
+        vkEnumerateDeviceExtensionProperties(d, nullptr, &count, extensions.data());
 
-        bool allExtensionsSupported = std::all_of(appSettings.DeviceExtensions.begin(), appSettings.DeviceExtensions.end(), [&extensions](const char *ext) {
+        return std::all_of(appSettings.DeviceExtensions.begin(), appSettings.DeviceExtensions.end(), [&extensions](const char *ext) {
             return std::find_if(extensions.begin(), extensions.end(), [&ext](const VkExtensionProperties &p) {
                 return strcmp(ext, p.extensionName);
             }) != extensions.end();
         });
 
-        return allExtensionsSupported;
+    }
+    
+    bool isSwapchainSupported(VkPhysicalDevice d)
+    {
+        auto surfaceProp = Application::GetSingleton()->window->GetSurfaceCapabilities(d);
+        return surfaceProp.IsSupported();
+    }
+
+    bool DeviceBrowser::isSupported(VkPhysicalDevice device)
+    {
+        return areExtensionsSupported(device) && isSwapchainSupported(device);
     }
 }

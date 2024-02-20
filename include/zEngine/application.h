@@ -12,10 +12,11 @@ namespace zEngine
     }
     class Application
     {
-        private:
+        public:
             std::unique_ptr<class Window> window;
             std::unique_ptr<devices::LogicalDevice> logicalDevice;
             std::unique_ptr<devices::PhysicalDevice> physicalDevice;
+        private:
             VkInstance vkInstance;
             static Application* instance;
             
@@ -28,6 +29,7 @@ namespace zEngine
                 return GetSingleton()->vkInstance;
             }
             static VkSurfaceKHR GetSurface();
+            
 
 
             ~Application();

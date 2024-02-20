@@ -14,8 +14,6 @@ namespace zEngine::configuration
             const std::vector<const char *> ValidationLayers = {
                 "VK_LAYER_KHRONOS_validation"
             };
-            const std::vector<const char *> DeviceExtensions = {
-                "VK_KHR_swapchain"
-            };
+            const std::vector<const char *> DeviceExtensions = { };
     };
 }

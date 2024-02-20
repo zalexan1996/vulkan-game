@@ -1,6 +1,8 @@
 #include "window.h"
 #include "application.h"
 #include "asserts.h"
+#include <vector>
+#include <algorithm>
 
 namespace zEngine
 {
@@ -45,6 +47,21 @@ namespace zEngine
         auto result = glfwCreateWindowSurface(instance, window, nullptr, &vkSurface);
 
         common::Assert::VulkanSuccess(result, "Failed to create window surface.");
+    }
+
+    common::SurfaceProperties Window::GetSurfaceCapabilities(VkPhysicalDevice d)
+    {
+        return common::SurfaceProperties(d, GetSurface());
+    }
+    VkExtent2D Window::GetFramebufferSize(const VkSurfaceCapabilitiesKHR& capabilities) const
+    {
+        int width, height;
+        glfwGetFramebufferSize(window, &width, &height);
+
+        return {
+            std::clamp((uint32_t)width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width),
+            std::clamp((uint32_t)height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height)
+        };
     }
 
 } // namespace zEngine

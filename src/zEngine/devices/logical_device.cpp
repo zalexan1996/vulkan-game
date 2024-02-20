@@ -2,12 +2,13 @@
 #include <vector>
 #include "asserts.h"
 #include "queue_infos.h"
-
+#include "app_settings.h"
 namespace zEngine::devices
 {
     LogicalDevice::LogicalDevice(const PhysicalDevice &d)
         : physicalDevice(d)
     {
+        zEngine::configuration::AppSettings appSettings;
         auto infos = d.GetQueueFamilyInfos();
         float priority = 1.0f;
 
@@ -24,6 +25,8 @@ namespace zEngine::devices
         createInfo.queueCreateInfoCount = 1; //TODO: Create multiple based on queue count on physical device.
         createInfo.pQueueCreateInfos = &queueCreateInfo;
         createInfo.pEnabledFeatures = &deviceFeatures;
+        createInfo.enabledExtensionCount = appSettings.DeviceExtensions.size();
+        createInfo.ppEnabledExtensionNames = appSettings.DeviceExtensions.data();
 
         zEngine::common::Assert::VulkanSuccess(vkCreateDevice(d.GetVkPhysicalDevice(), &createInfo, nullptr, &vkDevice), "Failed to create logical device.");
     }
