@@ -20,4 +20,15 @@ namespace engine::commands
             vkDestroyCommandPool(device_, pool_, nullptr);
         }
     }
+
+    void CommandPool::Allocate(uint32_t count)
+    {
+        VkCommandBufferAllocateInfo info{};
+        info.sType = VkStructureType::VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+        info.commandPool = pool_;
+        info.level = VkCommandBufferLevel::VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+        info.commandBufferCount = count;
+
+        common::Assert::VulkanSuccess(vkAllocateCommandBuffers(device_, &info, buffers_.data()), "Failed to allocate command buffers.");
+    }
 }

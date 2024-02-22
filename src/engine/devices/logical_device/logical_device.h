@@ -4,7 +4,7 @@
 #include "engine/devices/queue_container/queue_container.h"
 #include <memory>
 #include "engine/commands/command_pool/command_pool.h"
-
+#include <map>
 namespace engine::devices
 {
     class LogicalDevice
@@ -13,7 +13,7 @@ namespace engine::devices
             PhysicalDevice physical_device_;
             VkDevice logical_device_ = nullptr;
             std::unique_ptr<QueueContainer> queue_container_;
-            std::unique_ptr<engine::commands::CommandPool> command_pool_;
+            std::map<uint32_t, std::unique_ptr<engine::commands::CommandPool>> command_pools_;
             
         protected:
             void CreateQueueContainer();
