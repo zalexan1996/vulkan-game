@@ -23,7 +23,7 @@ namespace game
         auto device = engine::devices::DeviceBrowser(instance_.get()).First();
         logical_device_ = std::make_unique<engine::devices::LogicalDevice>(device.Vk(), configuration_);
 
-        swapchain_ = std::make_unique<engine::graphics::Swapchain>(logical_device_.get(), surface_->Vk(), VkExtent2D(1600, 900));
+        swapchain_ = std::make_unique<engine::graphics::Swapchain>(logical_device_.get(), surface_.get());
     }
 
     Application::~Application()

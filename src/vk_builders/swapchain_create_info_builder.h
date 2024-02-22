@@ -3,6 +3,7 @@
 #include "engine/engine_vulkan.h"
 #include <string>
 #include <vector>
+#include "engine/surface/surface.h"
 
 namespace vk_builders
 {
@@ -10,10 +11,9 @@ namespace vk_builders
     {
         private:
             VkSwapchainCreateInfoKHR info;
-        public:
-            SwapchainCreateInfoBuilder(uint32_t image_count = 1);
 
-            SwapchainCreateInfoBuilder& AddSurface(VkSurfaceKHR surface, VkExtent2D surface_extent);
+        public:
+            SwapchainCreateInfoBuilder(const engine::Surface::Capabilities &capabilities, VkSurfaceKHR surface);
 
             SwapchainCreateInfoBuilder& QueueIndices(const std::vector<uint32_t> &presentation_queue_indices);
 
