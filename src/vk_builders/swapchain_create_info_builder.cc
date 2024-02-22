@@ -20,6 +20,7 @@ namespace vk_builders
         info.preTransform = capabilities.capabilities_.currentTransform;
         info.imageColorSpace = format.colorSpace;
         info.imageFormat = format.format;
+        info.imageSharingMode = VkSharingMode::VK_SHARING_MODE_EXCLUSIVE;
         info.imageExtent = VkExtent2D(
             std::clamp(capabilities.capabilities_.currentExtent.width, capabilities.capabilities_.minImageExtent.width, capabilities.capabilities_.maxImageExtent.width),
             std::clamp(capabilities.capabilities_.currentExtent.height, capabilities.capabilities_.minImageExtent.height, capabilities.capabilities_.maxImageExtent.height)
