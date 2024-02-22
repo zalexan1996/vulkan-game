@@ -32,10 +32,17 @@ namespace engine::devices
         vkGetDeviceQueue(logical_device_, gfx_queue_info.index_, 0, &gfx_queue);
 
         queue_container_->Register(gfx_queue_info, gfx_queue);
+
+        CreateCommandPool();
     }
 
     LogicalDevice::~LogicalDevice()
     {
+        if (command_pool_ != nullptr)
+        {
+            command_pool_.reset();
+        }
+        
         if (queue_container_ != nullptr)
         {
             queue_container_.reset();
@@ -50,6 +57,12 @@ namespace engine::devices
     void LogicalDevice::CreateQueueContainer()
     {
         queue_container_ = std::make_unique<QueueContainer>(logical_device_);
+    }
+
+    void LogicalDevice::CreateCommandPool()
+    {
+        const auto gfx_queue_data = queue_container_->GetAvailable(VkQueueFlagBits::VK_QUEUE_GRAPHICS_BIT);
+        command_pool_ = std::make_unique<engine::commands::CommandPool>(logical_device_, gfx_queue_data.queue_info_.index_);
     }
 
     std::vector<uint32_t> LogicalDevice::GetPresentationQueues() const
