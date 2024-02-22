@@ -28,4 +28,18 @@ namespace engine::devices
             return QueueInfo(index++, prop.queueFlags, prop.queueCount);
         });
     }
+
+    QueueInfo QueueInfos::FirstOfType(VkQueueFlagBits bits) const
+    {
+        auto info_it = std::find_if(queue_infos_.begin(), queue_infos_.end(), [&bits](const QueueInfo&info) {
+            return info.flags_ & bits;
+        });
+
+        if (info_it == queue_infos_.end())
+        {
+            throw std::runtime_error("There were no queue families that support: " + std::to_string(bits));
+        }
+
+        return *info_it;
+    }
 }

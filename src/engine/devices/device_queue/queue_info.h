@@ -35,5 +35,7 @@ namespace engine::devices
         const QueueInfo & At(uint32_t index) const {
             return queue_infos_.at(index);
         }
+
+        QueueInfo FirstOfType(VkQueueFlagBits bits) const;
     };
 }

@@ -10,7 +10,9 @@ namespace common::config
         {
             const char* window_title = "vulkan-game";
 
-            std::vector<const char*> device_extensions_ = { };
+            std::vector<const char*> device_extensions_ = { 
+                VK_KHR_SWAPCHAIN_EXTENSION_NAME
+            };
             std::vector<const char*> instance_extensions_ = { };
 
             std::vector<const char*> enabled_layers_ = {

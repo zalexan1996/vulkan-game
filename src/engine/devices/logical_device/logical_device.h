@@ -1,6 +1,8 @@
 #pragma once
 #include "engine/devices/physical_device/physical_device.h"
 #include "common/config/configuration.h"
+#include "engine/devices/queue_container/queue_container.h"
+#include <memory>
 
 namespace engine::devices
 {
@@ -9,18 +11,22 @@ namespace engine::devices
         private:
             PhysicalDevice physical_device_;
             VkDevice logical_device_ = nullptr;
-            VkQueue queue;
+            std::unique_ptr<QueueContainer> queue_container_;
             
+        protected:
+            void CreateQueueContainer();
         public:
             LogicalDevice(const PhysicalDevice &physical_device, const common::config::Configuration &config);
             ~LogicalDevice();
             
-            const PhysicalDevice &GetPhysicalDevice() const {
+            PhysicalDevice GetPhysicalDevice() const {
                 return physical_device_;
             }
 
-            const VkDevice& Vk() const {
+            VkDevice Vk() const {
                 return logical_device_;
             }
+
+            std::vector<uint32_t> GetPresentationQueues() const;
     };
 }
