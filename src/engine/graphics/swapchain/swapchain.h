@@ -22,5 +22,12 @@ namespace engine::graphics
         public:
             Swapchain(engine::devices::LogicalDevice *device, engine::Surface* surface);
             ~Swapchain();
+
+            const VkFormat &Format() const {
+                return format_;
+            }
+            const VkExtent2D &Extent() const {
+                return extent_;
+            }
     };
 }

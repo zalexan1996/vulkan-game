@@ -7,6 +7,7 @@
 #include "engine/surface/surface.h"
 #include "engine/devices/queue_container/queue_container.h"
 #include "engine/graphics/swapchain/swapchain.h"
+#include "engine/graphics/renderer/renderer.h"
 
 namespace game
 {
@@ -29,6 +30,7 @@ namespace game
             std::unique_ptr<engine::devices::LogicalDevice> logical_device_;
             std::unique_ptr<engine::Surface> surface_;
             std::unique_ptr<engine::graphics::Swapchain> swapchain_;
+            std::unique_ptr<engine::graphics::Renderer> renderer_;
 
             common::config::Configuration configuration_;
     };

@@ -8,7 +8,8 @@ namespace engine::graphics
         private:
             VkPipeline pipeline_;
 
+
         public:
-            Pipeline();
+            Pipeline() {}
     };
 }

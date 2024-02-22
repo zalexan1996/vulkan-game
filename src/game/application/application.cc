@@ -24,10 +24,12 @@ namespace game
         logical_device_ = std::make_unique<engine::devices::LogicalDevice>(device.Vk(), configuration_);
 
         swapchain_ = std::make_unique<engine::graphics::Swapchain>(logical_device_.get(), surface_.get());
+        renderer_ = std::make_unique<engine::graphics::Renderer>(logical_device_.get()->Vk(), swapchain_->Format());
     }
 
     Application::~Application()
     {
+        renderer_.reset();
         swapchain_.reset();
         logical_device_.reset();
         surface_.reset();
